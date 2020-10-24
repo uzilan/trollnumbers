@@ -1,8 +1,8 @@
 Troll numbers
 ===========
-'Everyone knows trolls can't even count up to four!'*
-
-*In fact, trolls traditionally count like this: one, two, three, many, and people 
+> 'Everyone knows trolls can't even count up to four!'*
+>
+> *In fact, trolls traditionally count like this: one, two, three, many, and people 
 assume this means they can have no grasp of higher numbers. They don't realise 
 that many can BE a number. As in: one, two, three, many, many-one, many-two,
 many-three, many many, many-many-one, many-many-two, many-many-three, 
