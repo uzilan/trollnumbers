@@ -12,7 +12,7 @@ package trollnumbers
  */
 data class SimpleTrollNumber(override val value: Int) : TrollNumber {
 
-    /** The string representation of this complex troll number */
+    /** The string representation of this simple troll number */
     override fun toString(): String {
         return when (value) {
             1 -> "one"

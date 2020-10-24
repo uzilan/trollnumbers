@@ -12,7 +12,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("ch.qos.logback:logback-classic:1.2.3")
     testImplementation("io.kotest:kotest-runner-junit5:4.3.0")
-    testImplementation("io.kotest:kotest-property:4.3.0")
 }
 
 val test by tasks.getting(Test::class) {
