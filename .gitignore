@@ -4,8 +4,9 @@
 # Ignore Gradle build output directory
 build
 /.idea/
-
 /kotlin/.idea/
 /scala/.idea/
+/java/.idea/
+
 /scala/project/target/
 /scala/target/
