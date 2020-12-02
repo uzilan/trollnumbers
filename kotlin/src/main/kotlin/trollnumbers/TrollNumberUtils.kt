@@ -12,7 +12,7 @@ fun String.toTrollNumber(): TrollNumber {
     if (this.contains("-")) {
         val split = this.split("-")
         val trollNumbers = split.map { s -> s.toTrollNumber() }
-        return ComplexTrollNumber(trollNumbers)
+        return trollNumbers.reduce { acc, trollNumber -> acc + trollNumber }
     }
 
     return when (this) {
@@ -35,21 +35,30 @@ fun String.toTrollNumber(): TrollNumber {
  */
 fun Int.toTrollNumber(): TrollNumber {
     return when (this) {
+        in Int.MIN_VALUE .. 0 -> throw IllegalArgumentException("Unknown troll number")
         1 -> one
         2 -> two
         3 -> three
         4 -> many
+        in 5..15 ->{
+            val noOfManys = this / 4
+            val manyExpression = if(noOfManys > 1){
+                List<TrollNumber>(noOfManys){many}.reduce{acc, next -> TrollNumberExpression(acc, next)}
+            } else many
+            val rest = this % 4
+            if(rest > 0) TrollNumberExpression(manyExpression, rest.toTrollNumber()) else manyExpression
+        }
         16 -> lots
         else -> {
-            val noOfManys = this / 4
-            val manys = MutableList(noOfManys) { many }
-
-            val rest = this % 4
-            if (rest > 0) {
-                val simple = SimpleTrollNumber(rest)
-                manys.add(simple)
+            val noLots = this / 16
+            val lotsList = List<TrollNumber>(noLots){ lots }
+            val rest = this % 16
+            val lotsExp = if(lotsList.size > 1){
+                lotsList.reduce{acc, next -> TrollNumberExpression(acc, next)}
+            } else {
+                lots
             }
-            return ComplexTrollNumber(manys)
+            if(rest > 0) TrollNumberExpression(lotsExp, rest.toTrollNumber()) else lotsExp
         }
     }
 }
@@ -62,7 +71,7 @@ fun Int.toTrollNumber(): TrollNumber {
  * * many-many-three => many-many-three
  * * many-many-many-two => many-many-many-two
  */
-operator fun TrollNumber.minus(other: TrollNumber): TrollNumber = ComplexTrollNumber(listOf(this, other))
+operator fun TrollNumber.minus(other: TrollNumber): TrollNumber = this + other
 
 /**
  * Add two troll numbers to create a new one.
@@ -70,6 +79,6 @@ operator fun TrollNumber.minus(other: TrollNumber): TrollNumber = ComplexTrollNu
  * Examples:
  * * one + one => two
  * * many + two => many-two
- * * (many-one) + (many-one) => many-many-two // yeah, without the brackets that just wouldn't work, sorry
+ * * many-one + many-one => many-many-two
  */
 operator fun TrollNumber.plus(other: TrollNumber): TrollNumber = (this.value + other.value).toTrollNumber()
